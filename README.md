@@ -17,4 +17,4 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
 
 3. Run the program from the top and all the way to the end. It will generate a dataset that contains all the biomarkers data corresponding the therapies and diseases. 
   
-	(a). At the begining of the program, you will need to mount the google drive. When you run the mount code (the first code block), you will see a link, click the link, then select your current google drive account and click "allow" in the following page. After that, it will show a authorization code. Copy it and paste it to the box and hit "Enter". 
+	(a). At the begining of the program, you will need to mount the google drive. When you run the mount code (the first code block), you will see a link, click the link, then select your current google drive account and click "allow" in the following page. After that, it will show a authorization code. Copy it and paste it to the box in the script and hit "Enter". 
