@@ -11,7 +11,7 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
 	
 	(a). Colab is highly recommended! If you are new to Colab, please see instructions [here](https://developers.google.com/earth-engine/guides/python_install-colab#existing-notebook). In general, upload this notebook to your Google drive, right click the notebook, and select "open with" "Google Colaboratory". 
   
-	(b). If you are using other interprater, such as Jupyter Notebook or local Python IDLE, please make sure your machine brings NVIDIA GPU as the program will require CUBA. Most of Apple Mac's machines do not use NVIDIA GPU, therefore, they do not work. 
+	(b). If you are using other interprater, such as Jupyter Notebook or local Python IDLE, please make sure your machine brings NVIDIA GPU as the program will require CUBA. Most of Apple Mac's machines do not use NVIDIA GPU, therefore, it could not work. 
 
 2. On Colab, make sure the Hardware accelerator is in GPU. Select "Runtime" tag on the top-left of the page. Then, select "change runtime type". You will Notebook settings, under "Hardware accelerator", select "GPU" and Save.
 
