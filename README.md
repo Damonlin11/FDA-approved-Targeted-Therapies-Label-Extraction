@@ -13,7 +13,7 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
   
 	(b). If you are using other interprater, such as Jupyter Notebook or local Python IDLE, please make sure your machine brings NVIDIA GPU as the program will require CUBA. Most of Apple Mac's machines do not use NVIDIA GPU, therefore, it could not work. 
 
-2. If use Colab Notebook, before runing the program, make sure the Hardware accelerator is in GPU. Select "Runtime" tag on the top-left of the page. Then, select "change runtime type". It will show a Notebook settings window, under "Hardware accelerator", select "GPU" and Save.
+2. In the Colab Notebook, before runing the program, make sure the Hardware accelerator is in GPU. Select "Runtime" tag on the top-left of the page. Then, select "change runtime type". It will show a Notebook settings window, under "Hardware accelerator", select "GPU" and Save.
 
 3. Mount the Google drive, run the program from the top and all the way to the end. It will generate a dataframe that contains all the biomarkers data of the therapies and diseases. 
   
