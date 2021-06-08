@@ -1,6 +1,6 @@
 # Biomarker Extraction - NLP
 
-Authors: Junxia Lin, Yuezheng He, Chul Kim, Siminar Boca
+Authors: Junxia Lin, Yuezheng He, Chul Kim, Simina Boca
 
 This repository contains a program and a package of custom modules used to automatically extract biomarkers of FDA-approved targeted therapies listed on [NIH National Cancer Institue (NCI)](https://www.cancer.gov/about-cancer/treatment/types/targeted-therapies/targeted-therapies-fact-sheet) from their NCI webpage and DailyMed webpage(s). 
 
