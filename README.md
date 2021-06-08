@@ -9,7 +9,7 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
 ## Instructions to run the targeted-therapies-biomarker-extraction program:
 1. Download the script and upload it to your Google Colaboratory (Colab). 
 	
-	(a). Colab is highly recommended! If you are new to Colab, please see instructions [here](https://developers.google.com/earth-engine/guides/python_install-colab#existing-notebook). In general, upload this notebook to your Google drive, right click the notebook, and select "open with" "Google Colaboratory". 
+	(a). Colab is highly recommended! If you are new to Colab, please see instructions [here](https://developers.google.com/earth-engine/guides/python_install-colab#existing-notebook). In general, upload this notebook to your Google drive, right click the notebook, and select "open with" "Google Colaboratory". You may need to install the Google Colaboratory extention before that. 
   
 	(b). If you are using other interprater, such as Jupyter Notebook or local Python IDLE, please make sure your machine brings NVIDIA GPU as the program will require CUBA. Most of Apple Mac's machines do not use NVIDIA GPU, therefore, it could not work. 
 
