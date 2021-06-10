@@ -11,10 +11,12 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
 	
 	(a). Colab is highly recommended! If you are new to Colab, please see instructions [here](https://developers.google.com/earth-engine/guides/python_install-colab#existing-notebook). In general, upload this notebook to your Google drive, right click the notebook, and select "open with" "Google Colaboratory". You may need to install the Google Colaboratory extention before that. 
   
-	(b). If you are using other interprater, such as Jupyter Notebook or local Python IDLE, please make sure your machine brings NVIDIA GPU as the program will require CUBA. Most of Apple Mac's machines do not use NVIDIA GPU, therefore, it could not work. 
+	(b). If you are using other Python environments, such as Jupyter Notebook or local Python IDLE, please make sure your machine brings NVIDIA GPU as the program will require CUBA. Most of Apple Mac's machines do not use NVIDIA GPU, therefore, it could not work. 
 
 2. Before runing the program, make sure the Hardware accelerator is in GPU. Select "Runtime" tag on the top-left of the page. Then, select "change runtime type". It will show a Notebook settings window, under "Hardware accelerator", select "GPU" and Save.
 
 3. Mount the Google drive, run the program from the top and all the way to the end. It will generate a dataframe that contains all the biomarkers data of the therapies and diseases. 
   
 	(a). At the beginning of the program, you will need to mount the google drive. When you run the mount code (the first chunck of the code), you will see a link, click the link, then select your current google drive account and click "allow" in the following page. After that, it will show a authorization code. Copy it and paste it to the box in the program and hit "Enter". 
+
+### Instructions to load the two pre-trained negation models:
