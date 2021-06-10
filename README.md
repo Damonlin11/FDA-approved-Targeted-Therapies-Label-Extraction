@@ -19,4 +19,5 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
   
 	(a). At the beginning of the program, you will need to mount the google drive. When you run the mount code (the first chunck of the code), you will see a link, click the link, then select your current google drive account and click "allow" in the following page. After that, it will show a authorization code. Copy it and paste it to the box in the program and hit "Enter". 
 
-### Instructions to load the two pre-trained negation models:
+#### Instructions to load the two pre-trained negation models:
+1. 
