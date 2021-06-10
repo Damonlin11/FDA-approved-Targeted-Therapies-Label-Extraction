@@ -26,7 +26,7 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
 
 3. Upload both of them to your Google drive. It may take a bit of time.
 
-4. Get the path to the model for loading the models in the section 4 of the Notebook. One way to find the path: 
+4. Get the path to the model for loading the models in the section 4 of the program. One way to find the path: 
 	
 	(a) Find the "Files" sign on the very left of the notebook window.
 	
