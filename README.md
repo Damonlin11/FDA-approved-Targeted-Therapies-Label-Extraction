@@ -21,10 +21,17 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
 
 #### Instructions to load the two pre-trained negation models on Colab:
 1. Download the two pre-trained models to your local computer from: [negCue](https://aihub.cloud.google.com/u/1/p/2c29e298-0c75-435a-ae83-da80188b7f7b) and [negScope](https://aihub.cloud.google.com/u/1/p/0147a6f3-ddf7-498c-823d-014c3d1f1def). They are in tar.gz format.
+
 2. Unzip these two files. Each should yield one single file. They are negCue (1.31 GB) and negScope(1.4 GB).
+
 3. Upload both of them to your Google drive. It may take a bit of time.
+
 4. Get the path to the model for loading the models in the section 4 of the Notebook. One way to find the path: 
+	
 	(a) Find the "Files" sign on the very left of the notebook window.
+	
 	(b) Start from the "drive" folder and nevigate to these two model files. 
+	
 	(c) Click the three dots on the right of the file and select "Copy path". 
+	
 	(d) Paste the paths to the section 4 to load the model. 
