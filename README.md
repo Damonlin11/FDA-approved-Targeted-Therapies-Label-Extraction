@@ -1,7 +1,5 @@
 # Biomarker Extraction - NLP
 
-Authors: Junxia Lin, Yuezheng He, Chul Kim, Simina Boca
-
 This repository contains a program and a package of custom modules used to extract biomarkers of FDA-approved targeted therapies listed on [NIH National Cancer Institue (NCI)](https://www.cancer.gov/about-cancer/treatment/types/targeted-therapies/targeted-therapies-fact-sheet) from their NCI webpage and DailyMed webpage(s). 
 
 The program extracts a variaty of biomarkers, including target therapies' name, disease name, drug brand name, gene, protein, and medication. These biomarker detection and extraction tasks are based on the named-entity recognition (NER) pre-training models from [scispacy](https://github.com/allenai/scispacy). In addition, the program is able to recognize negated biomarkers. The package includes functions to detect negation from sentences by using two pre-trained negation models obtained from Aditya Khandelwal & Suraj Sawant's (2020) [NegBERT](https://github.com/adityak6798/Transformers-For-Negation-and-Speculation) program. The negation tasks include negation cue detection and negation scope extraction from sentences. The package also provides function to detect key biomedical words for specific drugs and diseases, such as first-line treatment, accerelated approval, and metastatics. 
@@ -35,3 +33,9 @@ The program extracts a variaty of biomarkers, including target therapies' name, 
 	(c) Click the three dots on the right of the file and select "Copy path". 
 	
 	(d) Paste the paths to the section 4 to load the model. 
+
+## Copyright
+
+Copyright 2021 Biomarker_NLP Project
+
+Authors: Junxia Lin <jl2687@georgetown.edu>, Yuezheng He <yh694@georgetown.edu>, Chul Kim <chul.kim@gunet.georgetown.edu>, Simina Boca <smb310@georgetown.edu>
