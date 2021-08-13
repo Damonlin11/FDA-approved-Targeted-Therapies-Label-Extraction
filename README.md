@@ -38,4 +38,4 @@ The program extracts a variety of biomarkers, including: gene/protein; therapy; 
 
 Copyright 2021 Biomarker_NLP Project
 
-Authors: Junxia Lin <jl2687@georgetown.edu>, Yuezheng He <yh694@georgetown.edu>, Subha Madhavan <subha.madhavan@astrazeneca.com>, Chul Kim <chul.kim@gunet.georgetown.edu>, Simina M. Boca <simina.boca@astrazeneca.com>
+Authors: Junxia Lin <jl2687@georgetown.edu>, Yuezheng He <yh694@georgetown.edu>, Subha Madhavan <subha.madhavan@georgetown.edu>, Chul Kim <chul.kim@gunet.georgetown.edu>, Simina M. Boca <smb310@georgetown.edu>
