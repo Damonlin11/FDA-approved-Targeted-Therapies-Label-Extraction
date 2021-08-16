@@ -1,6 +1,7 @@
 """
 This is part of Aditya Khandelwal & Suraj Sawant's (2020) NegBERT program, it is necessary to run the negation cue detection (negCue) and negation scope resolution (negScope) models.
 For more information about the NegBERT program, please see https://github.com/adityak6798/Transformers-For-Negation-and-Speculation. 
+Referece: Khandelwal, A. & Sawant, S. (2020). NegBERT: A Transfer Learning Approach for Negation Detection and Scope Resolution. The 12th Language Resources and Evaluation Conference (LREC 2020). https://aclanthology.org/2020.lrec-1.704.pdf
 """
 import os, re, torch, html, tempfile, copy, json, math, shutil, tarfile, tempfile, sys, random, pickle
 from torch import nn
