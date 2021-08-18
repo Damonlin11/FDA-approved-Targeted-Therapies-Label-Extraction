@@ -121,4 +121,4 @@ True
 
 Copyright 2021 Biomarker_NLP Project
 
-Authors: Junxia Lin <jl2687@georgetown.edu>, Yuezheng He <yh694@georgetown.edu>, Subha Madhavan <subha.madhavan@georgetown.edu>, Chul Kim <chul.kim@gunet.georgetown.edu>, Simina Boca <smb310@georgetown.edu>
+Authors: Junxia Lin <jl2687@georgetown.edu>, Yuezheng He <yh694@georgetown.edu>, Subha Madhavan <subha.madhavan@georgetown.edu>, Chul Kim <chul.kim@gunet.georgetown.edu>, Simina M. Boca <smb310@georgetown.edu>
