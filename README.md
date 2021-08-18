@@ -20,6 +20,10 @@ The program extracts a variety of biomarkers, including: gene/protein; therapy; 
 #### Instructions to load the two pre-trained negation models on Colab:
 1. Download the two pre-trained models, [negCue](https://www.dropbox.com/s/3b8zhldmrx9niv4/negCue.zip?dl=0) and [negScope](https://www.dropbox.com/s/7nn1uptrvw66mn2/negScope.zip?dl=0), to your local computer from Dropbox. They are in zip format. You do not need to have a Dropbox account to download. 
 
+	You also can download them using the following links:
+	negCue: https://www.dropbox.com/s/3b8zhldmrx9niv4/negCue.zip?dl=0
+	negScope: https://www.dropbox.com/s/7nn1uptrvw66mn2/negScope.zip?dl=0
+	
 2. Unzip these two files if they are zipped. Each should yield one single file. They are negCue (1.31 GB) and negScope(1.4 GB). If you encounter unzip errors on a Mac, please see [here](https://discussions.apple.com/thread/8187518) for a possible solution.
 
 3. Upload both of them to your Google drive. This may take some time.
