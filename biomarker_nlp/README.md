@@ -5,7 +5,7 @@ This package (biomarker_nlp) contains modules and functions supporting recogniti
 The biomarker recognition tasks are based on the pre-trained named-entity recognition (NER) models from [scispacy](https://github.com/allenai/scispacy). The tasks for detecting negated biomarkers are based on two pre-trained negation models obtained from Aditya Khandelwal & Suraj Sawant's (2020) [NegBERT](https://github.com/adityak6798/Transformers-For-Negation-and-Speculation) program. The negation tasks include negation cue detection and negation scope extraction from sentences. The package also provides functions to detect key clinical terminology for specific drugs and diseases, such as first-line treatment, accelerated approval, and metastatic disease. 
 
 ## Installation
-To install the library, run command:
+To install the library, run command (If you’re in a Colab notebook (or similar), add a ! at the beginning, e.g. !pip):
 ```bash
 pip install biomarker_nlp
 ```
