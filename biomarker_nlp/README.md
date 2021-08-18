@@ -15,7 +15,7 @@ Some functions will require you to install scispacy pre-trained models. To insta
 pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_craft_md-0.3.0.tar.gz
 ```
 
-Some functions will require pre-trained negation models. Download [negCue](https://aihub.cloud.google.com/u/1/p/2c29e298-0c75-435a-ae83-da80188b7f7b) and [negScope](https://aihub.cloud.google.com/u/1/p/0147a6f3-ddf7-498c-823d-014c3d1f1def), then load them in script:
+Some functions will require pre-trained negation models. Download [negCue](https://www.dropbox.com/s/3b8zhldmrx9niv4/negCue.zip?dl=0) and [negScope](https://www.dropbox.com/s/7nn1uptrvw66mn2/negScope.zip?dl=0), then load them in script:
 ```python
 >>> modelCue = torch.load('/path/to/the/model') # path to the location where the model file is placed
 ```
