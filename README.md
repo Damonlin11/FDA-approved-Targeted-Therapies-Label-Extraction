@@ -22,6 +22,7 @@ The program extracts a variety of biomarkers, including: gene/protein; therapy; 
 
 	You also can download them using the following links:
 	negCue: https://www.dropbox.com/s/3b8zhldmrx9niv4/negCue.zip?dl=0
+	
 	negScope: https://www.dropbox.com/s/7nn1uptrvw66mn2/negScope.zip?dl=0
 	
 2. Unzip these two files if they are zipped. Each should yield one single file. They are negCue (1.31 GB) and negScope(1.4 GB). If you encounter unzip errors on a Mac, please see [here](https://discussions.apple.com/thread/8187518) for a possible solution.
