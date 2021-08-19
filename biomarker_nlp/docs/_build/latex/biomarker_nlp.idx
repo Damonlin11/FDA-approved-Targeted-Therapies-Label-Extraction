@@ -1,0 +1,22 @@
+\indexentry{module@\spxentry{module}!biomarker\_extraction@\spxentry{biomarker\_extraction}|hyperpage}{1}
+\indexentry{biomarker\_extraction@\spxentry{biomarker\_extraction}!module@\spxentry{module}|hyperpage}{1}
+\indexentry{disease\_content() (in module biomarker\_extraction)@\spxentry{disease\_content()}\spxextra{in module biomarker\_extraction}|hyperpage}{1}
+\indexentry{drug\_brand\_label() (in module biomarker\_extraction)@\spxentry{drug\_brand\_label()}\spxextra{in module biomarker\_extraction}|hyperpage}{2}
+\indexentry{drug\_search\_url() (in module biomarker\_extraction)@\spxentry{drug\_search\_url()}\spxextra{in module biomarker\_extraction}|hyperpage}{2}
+\indexentry{gene\_protein\_chemical() (in module biomarker\_extraction)@\spxentry{gene\_protein\_chemical()}\spxextra{in module biomarker\_extraction}|hyperpage}{3}
+\indexentry{is\_accelerated\_approval() (in module biomarker\_extraction)@\spxentry{is\_accelerated\_approval()}\spxextra{in module biomarker\_extraction}|hyperpage}{4}
+\indexentry{is\_accelerated\_approval\_rate() (in module biomarker\_extraction)@\spxentry{is\_accelerated\_approval\_rate()}\spxextra{in module biomarker\_extraction}|hyperpage}{4}
+\indexentry{is\_firstline() (in module biomarker\_extraction)@\spxentry{is\_firstline()}\spxextra{in module biomarker\_extraction}|hyperpage}{5}
+\indexentry{is\_metastatic() (in module biomarker\_extraction)@\spxentry{is\_metastatic()}\spxextra{in module biomarker\_extraction}|hyperpage}{5}
+\indexentry{ndc\_code() (in module biomarker\_extraction)@\spxentry{ndc\_code()}\spxextra{in module biomarker\_extraction}|hyperpage}{6}
+\indexentry{section\_content() (in module biomarker\_extraction)@\spxentry{section\_content()}\spxextra{in module biomarker\_extraction}|hyperpage}{6}
+\indexentry{sent\_subtree() (in module biomarker\_extraction)@\spxentry{sent\_subtree()}\spxextra{in module biomarker\_extraction}|hyperpage}{7}
+\indexentry{targeted\_therapy\_name() (in module biomarker\_extraction)@\spxentry{targeted\_therapy\_name()}\spxextra{in module biomarker\_extraction}|hyperpage}{8}
+\indexentry{targeted\_therapy\_url() (in module biomarker\_extraction)@\spxentry{targeted\_therapy\_url()}\spxextra{in module biomarker\_extraction}|hyperpage}{8}
+\indexentry{therapy\_disease() (in module biomarker\_extraction)@\spxentry{therapy\_disease()}\spxextra{in module biomarker\_extraction}|hyperpage}{9}
+\indexentry{module@\spxentry{module}!negation\_cue\_scope@\spxentry{negation\_cue\_scope}|hyperpage}{10}
+\indexentry{negation\_cue\_scope@\spxentry{negation\_cue\_scope}!module@\spxentry{module}|hyperpage}{10}
+\indexentry{negation\_detect() (in module negation\_cue\_scope)@\spxentry{negation\_detect()}\spxextra{in module negation\_cue\_scope}|hyperpage}{10}
+\indexentry{negation\_scope() (in module negation\_cue\_scope)@\spxentry{negation\_scope()}\spxextra{in module negation\_cue\_scope}|hyperpage}{11}
+\indexentry{module@\spxentry{module}!negation\_negbert@\spxentry{negation\_negbert}|hyperpage}{12}
+\indexentry{negation\_negbert@\spxentry{negation\_negbert}!module@\spxentry{module}|hyperpage}{12}
