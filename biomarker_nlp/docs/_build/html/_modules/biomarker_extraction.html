@@ -1,0 +1,952 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>biomarker_extraction &mdash; Biomarker_NLP 0.0.3 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Biomarker_NLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">biomarker_nlp</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Biomarker_NLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>biomarker_extraction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for biomarker_extraction</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">lxml.html</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">scispacy</span>
+<span class="kn">import</span> <span class="nn">spacy</span>
+<span class="kn">import</span> <span class="nn">en_ner_craft_md</span>
+<span class="kn">import</span> <span class="nn">en_ner_jnlpba_md</span>
+<span class="kn">import</span> <span class="nn">en_ner_bionlp13cg_md</span>
+<span class="n">nlp_craft</span> <span class="o">=</span> <span class="n">en_ner_craft_md</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">nlp_jnlpha</span> <span class="o">=</span> <span class="n">en_ner_jnlpba_md</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">nlp_bionlp13cg</span> <span class="o">=</span> <span class="n">en_ner_bionlp13cg_md</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<div class="viewcode-block" id="disease_content"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.disease_content">[docs]</a><span class="k">def</span> <span class="nf">disease_content</span><span class="p">(</span><span class="n">dailyMedURL</span><span class="p">,</span> <span class="n">disease</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract subsection for a particular disease from a drug&#39;s DailyMed &#39;INDICATIONS AND USAGE&#39; section.</span>
+
+<span class="sd">  Parse the URL link using the lxml library. Locate the subsection that discusses the disease in the &#39;INDICATIONS AND USAGE&#39; section from the HTML&#39;s tree structure. </span>
+<span class="sd">  If the header argument is set to False, only the text content will be extracted. If the header argument is set to True, the whole subsection including the subheading and its text content will be extracted.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  dailyMedURL : str</span>
+<span class="sd">      An URL link to a drug&#39;s DailyMed information page and quoted (&quot;&quot;) as a string.</span>
+<span class="sd">  disease : str</span>
+<span class="sd">      The name of a disease whose text information will be extracted from the &#39;INDICATIONS AND USAGE&#39; section.</span>
+<span class="sd">  header : bool, optional</span>
+<span class="sd">      Extract the subheading, by default False. </span>
+<span class="sd">      If True, the subheading will be extracted. </span>
+<span class="sd">      If False, only the text content will be extracted.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  None or str</span>
+<span class="sd">      Return the subsection text with or without the subheading. </span>
+<span class="sd">      If no associated subsection of the disease is found, return None.</span>
+
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example (without subheading)</span>
+
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=939b5d1f-9fb2-4499-80ef-0607aa6b114e&quot;</span>
+<span class="sd">  &gt;&gt;&gt; disease = &quot;Cervical Cancer&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.disease_content(dailyMedURL = url, disease = disease, header = False)</span>
+<span class="sd">  &#39;\\nAvastin, in combination with paclitaxel and cisplatin or paclitaxel and topotecan, is indicated for the treatment of patients with persistent, recurrent, or metastatic cervical cancer.&#39;</span>
+<span class="sd">  </span>
+<span class="sd">  Example (with subheading)</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=939b5d1f-9fb2-4499-80ef-0607aa6b114e&quot;</span>
+<span class="sd">  &gt;&gt;&gt; disease = &quot;Cervical Cancer&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.disease_content(dailyMedURL = url, disease = disease, header = True)</span>
+<span class="sd">  &#39;1.5    Persistent, Recurrent, or Metastatic Cervical Cancer\\nAvastin, in combination with paclitaxel and cisplatin or paclitaxel and topotecan, is indicated for the treatment of patients with persistent, recurrent, or metastatic cervical cancer.&#39;</span>
+<span class="sd">  </span>
+<span class="sd">  </span>
+<span class="sd">  &quot;&quot;&quot;</span>
+   
+  <span class="c1"># parse the drug information page&#39;s link</span>
+  <span class="n">dailyMedRp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dailyMedURL</span><span class="p">)</span>
+  <span class="n">dailyMedPage</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">dailyMedRp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="c1"># locate the &#39;INDICATIONS AND USAGE&#39; section in DailyMed and extract the text content by certain cancer type. </span>
+  <span class="n">usagePath</span> <span class="o">=</span> <span class="s2">&quot;//li[a[contains(text(),&#39;INDICATIONS AND USAGE&#39;)]]/div/div[h2[contains(translate(text(),&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;,&#39;abcdefghijklmnopqrstuvwxyz&#39;),&#39;&quot;</span> <span class="o">+</span> <span class="n">disease</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;)]]&quot;</span>
+  <span class="n">dailyMedDisContent</span> <span class="o">=</span> <span class="n">dailyMedPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">usagePath</span><span class="p">)</span>
+
+  <span class="c1"># extract text content of the matched disease</span>
+  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dailyMedDisContent</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">dailyMedDisContentStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>                     
+    <span class="k">for</span> <span class="n">disContent</span> <span class="ow">in</span> <span class="n">dailyMedDisContent</span><span class="p">:</span>
+      <span class="n">dailyMedDisContentStr</span> <span class="o">=</span> <span class="n">dailyMedDisContentStr</span> <span class="o">+</span> <span class="n">disContent</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>                              
+    <span class="n">dailyMedDisContentStr</span> <span class="o">=</span> <span class="n">dailyMedDisContentStr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+
+    <span class="k">if</span> <span class="n">header</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+      <span class="n">headerPath</span> <span class="o">=</span> <span class="s2">&quot;//li[a[contains(text(),&#39;INDICATIONS AND USAGE&#39;)]]/div/div[h2[contains(translate(text(),&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;,&#39;abcdefghijklmnopqrstuvwxyz&#39;),&#39;&quot;</span> <span class="o">+</span> <span class="n">disease</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;)]]//h2&quot;</span>
+      <span class="n">headerContent</span> <span class="o">=</span> <span class="n">dailyMedPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">headerPath</span><span class="p">)</span>
+      <span class="n">dailyMedDisContentStr</span> <span class="o">=</span> <span class="n">dailyMedDisContentStr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">headerContent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text_content</span><span class="p">(),</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">dailyMedDisContentStr</span>
+    <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">dailyMedDisContentStr</span>
+  
+  <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="section_content"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.section_content">[docs]</a><span class="k">def</span> <span class="nf">section_content</span><span class="p">(</span><span class="n">dailyMedURL</span><span class="p">,</span> <span class="n">section</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract a whole section text content from the drug&#39;s DailyMed information page excluding the section heading.</span>
+
+<span class="sd">  Parse the URL link using the lxml library. Locate the section using the section&#39;s heading from the HTML&#39;s tree structure. Extract the text content of the section excluding the heading.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  dailyMedURL : str</span>
+<span class="sd">      An URL link to a drug DailyMed information page and quoted (&quot;&quot;) as a string.</span>
+<span class="sd">  section : str</span>
+<span class="sd">      The header of the section.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  None or str</span>
+<span class="sd">      Return section content. If no such a section is found, return None.</span>
+
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43a4d7f8-48ae-4a63-9108-2fa8e3ea9d9c&amp;audience=consumer&quot;</span>
+<span class="sd">  &gt;&gt;&gt; sectionHeader = &quot;INDICATIONS AND USAGE&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.section_content(dailyMedURL = url, section = sectionHeader)</span>
+<span class="sd">  &#39;1.1	Gastrointestinal Stromal Tumor</span>
+<span class="sd">  SUTENT is indicated for the treatment of adult patients with gastrointestinal stromal tumor (GIST) after disease progression on or intolerance to imatinib mesylate.</span>
+<span class="sd">  1.2	Advanced Renal Cell Carcinoma</span>
+<span class="sd">  SUTENT is indicated for the treatment of adult patients with advanced renal cell carcinoma (RCC).</span>
+<span class="sd">  1.3	Adjuvant Treatment of Renal Cell Carcinoma</span>
+<span class="sd">  SUTENT is indicated for the adjuvant treatment of adult patients at high risk of recurrent RCC following nephrectomy.</span>
+<span class="sd">  1.4	Advanced Pancreatic Neuroendocrine Tumors</span>
+<span class="sd">  SUTENT is indicated for the treatment of progressive, well-differentiated pancreatic neuroendocrine tumors (pNET) in adult patients with unresectable locally advanced or metastatic disease.&#39;</span>
+
+<span class="sd">  See Also</span>
+<span class="sd">  --------</span>
+<span class="sd">  disease_content</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  
+  <span class="c1"># parse the drug information page&#39;s link</span>
+  <span class="n">dailyMedRp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dailyMedURL</span><span class="p">)</span>
+  <span class="n">dailyMedPage</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">dailyMedRp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="c1"># locate the section in DailyMed and extract the text content. </span>
+  <span class="n">usagePath</span> <span class="o">=</span> <span class="s2">&quot;//li[a[contains(translate(text(),&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;,&#39;abcdefghijklmnopqrstuvwxyz&#39;),&#39;&quot;</span> <span class="o">+</span> <span class="n">section</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;)]]/div&quot;</span>
+  <span class="n">dailyMedSecContent</span> <span class="o">=</span> <span class="n">dailyMedPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">usagePath</span><span class="p">)</span>
+
+  <span class="c1"># extract text content of the section</span>
+  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dailyMedSecContent</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">dailyMedSecContentStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>                     
+    <span class="k">for</span> <span class="n">secContent</span> <span class="ow">in</span> <span class="n">dailyMedSecContent</span><span class="p">:</span>
+      <span class="n">dailyMedSecContentStr</span> <span class="o">=</span> <span class="n">dailyMedSecContentStr</span> <span class="o">+</span> <span class="n">secContent</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>                              
+    <span class="n">dailyMedSecContentStr</span> <span class="o">=</span> <span class="n">dailyMedSecContentStr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">dailyMedSecContentStr</span>
+
+  <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="drug_brand_label"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.drug_brand_label">[docs]</a><span class="k">def</span> <span class="nf">drug_brand_label</span><span class="p">(</span><span class="n">dailyMedURL</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract drug label at the drug dailyMed label information page.</span>
+
+<span class="sd">  Parse the URL link using the lxml library. Locate and extract the drug label from the HTML&#39;s tree structure. </span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  dailyMedURL : str</span>
+<span class="sd">      An URL link to a drug DailyMed information page</span>
+<span class="sd">      and quoted (&quot;&quot;) as a string.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  str</span>
+<span class="sd">      Return drug label. </span>
+<span class="sd">      If no drug label is found, return a zero-length string (&quot;&quot;). </span>
+
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43a4d7f8-48ae-4a63-9108-2fa8e3ea9d9c&amp;audience=consumer&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.drug_brand_label(dailyMedURL = url)</span>
+<span class="sd">  &#39;SUTENT- sunitinib malate capsule&#39;</span>
+
+<span class="sd">  See Also</span>
+<span class="sd">  --------</span>
+<span class="sd">  ndc_code</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># parse the drug information page&#39;s link</span>
+  <span class="n">dailyMedRp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dailyMedURL</span><span class="p">)</span>
+  <span class="n">dailyMedPage</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">dailyMedRp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="c1"># extract the brand label</span>
+  <span class="n">therBrName</span> <span class="o">=</span> <span class="n">dailyMedPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//span[@id=&#39;drug-label&#39;]/text()&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">therBrName</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">drugLabel</span> <span class="o">=</span> <span class="n">therBrName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">else</span><span class="p">:</span> <span class="n">drugLabel</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">drugLabel</span></div>
+
+
+<div class="viewcode-block" id="ndc_code"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.ndc_code">[docs]</a><span class="k">def</span> <span class="nf">ndc_code</span><span class="p">(</span><span class="n">dailyMedURL</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract NDC code(s) from the drug dailyMed label information page.</span>
+
+<span class="sd">  Parse the URL link using the lxml library. Locate and extract the NDC codes from the HTML&#39;s tree structure. It returns all the codes found in a string. The codes are separated by commas. </span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  dailyMedURL : str</span>
+<span class="sd">      An URL link to a drug DailyMed information page</span>
+<span class="sd">      and quoted (&quot;&quot;) as a string.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  str</span>
+<span class="sd">      Return NDC codes(s) in a string. If more than one code is found, codes are separated by commas. </span>
+<span class="sd">  </span>
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43a4d7f8-48ae-4a63-9108-2fa8e3ea9d9c&amp;audience=consumer&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.ndc_code(dailyMedURL = url)</span>
+<span class="sd">  &#39;0069-0550-38, 0069-0770-38, 0069-0830-38, 0069-0980-38&#39;</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># parse the drug information page&#39;s link</span>
+  <span class="n">dailyMedRp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dailyMedURL</span><span class="p">)</span>
+  <span class="n">dailyMedPage</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">dailyMedRp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="c1"># extract the NDC codes</span>
+  <span class="n">codeList</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">NDCCode</span> <span class="o">=</span> <span class="n">dailyMedPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//span[@id=&#39;item-code-s&#39;]/text()&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">NDCCode</span><span class="p">:</span>
+    <span class="n">NDCCode</span> <span class="o">=</span> <span class="n">NDCCode</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">NDCCodeList</span> <span class="o">=</span> <span class="n">NDCCode</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">NDCCodeList</span><span class="p">)):</span>
+      <span class="n">NDCCodeList</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">NDCCodeList</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+      <span class="n">NDCCodeList</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">NDCCodeList</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">codeList</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">NDCCodeList</span><span class="p">)</span>
+
+  <span class="c1"># extract the NDC code (view more)</span>
+  <span class="n">NDCCodeMore</span> <span class="o">=</span> <span class="n">dailyMedPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//span[@id=&#39;item-code-s&#39;]//div[@class = &#39;more-codes&#39;]/span/text()&quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">NDCCodeMore</span><span class="p">:</span>
+    <span class="n">NDCCodeMore</span> <span class="o">=</span> <span class="n">NDCCodeMore</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">NDCCodeMoreList</span> <span class="o">=</span> <span class="n">NDCCodeMore</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">NDCCodeMoreList</span><span class="p">)):</span>
+      <span class="n">NDCCodeMoreList</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">NDCCodeMoreList</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+      <span class="n">NDCCodeMoreList</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">NDCCodeMoreList</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="n">codeList</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">NDCCodeMoreList</span><span class="p">)</span>
+  <span class="n">ndcCode</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">codeList</span> <span class="k">if</span> <span class="n">x</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">ndcCode</span></div>
+
+
+<div class="viewcode-block" id="gene_protein_chemical"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.gene_protein_chemical">[docs]</a><span class="k">def</span> <span class="nf">gene_protein_chemical</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">gene</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">protein</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">chemical</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract gene, protein, and drug labels from a string.</span>
+
+<span class="sd">  The function uses three pre-trained NER models from scispacy. Please see https://allenai.github.io/scispacy/. We use en_ner_craft_md model to recognize genes. Entities labeled with &quot;GGP&quot; in this model are categorized as genes. We use the en_ner_jnlpba_md model to recognize proteins. Entities labeled with &quot;PROTEIN&quot; in this model are categorized as proteins. We use en_ner_bionlp13cg_md model to recognize drugs. Entities labeled with &quot;SIMPLE_CHEMICAL&quot; in this model are categorized as drugs.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  text : str</span>
+<span class="sd">      A single string. </span>
+<span class="sd">  gene : int, optional</span>
+<span class="sd">      Extract genes, by default 1.</span>
+<span class="sd">      0: do not extract genes. 1: extract genes. </span>
+<span class="sd">  protein : int, optional</span>
+<span class="sd">      Extract proteins, by default 1.</span>
+<span class="sd">      0: do not extract proteins. 1: extract proteins. </span>
+<span class="sd">  chemical : int, optional</span>
+<span class="sd">      Extract simple chemicals, by default 1. </span>
+<span class="sd">      0: do not extract simple chemicals. 1: extract simple chemicals. </span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  dic</span>
+<span class="sd">      Return a dictionary in which &quot;gene&quot;, &quot;proteins&quot;, or/and &quot;chemical&quot; are</span>
+<span class="sd">      the keys, lists of genes, proteins, or/and chemicals are the values.</span>
+<span class="sd">  </span>
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Install the necessary packages and pre-trained models</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; # If using Colab Notebook, use !pip</span>
+<span class="sd">  $ pip install scispacy</span>
+<span class="sd">  $ pip install -U spacy==2.3.1</span>
+<span class="sd">  $ pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_craft_md-0.3.0.tar.gz</span>
+<span class="sd">  $ pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_jnlpba_md-0.3.0.tar.gz</span>
+<span class="sd">  $ pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_bionlp13cg_md-0.3.0.tar.gz</span>
+<span class="sd">  </span>
+<span class="sd">  Import the module</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example (Recognize entities)</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; txt = &quot;Patients with EGFR or ALK genomic tumor aberrations should have disease progression on FDA-approved therapy for NSCLC harboring these aberrations prior to receiving TECENTRIQ.&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.gene_protein_chemical(text = txt, gene= 1, protein = 1, chemical = 1)</span>
+<span class="sd">  {&#39;gene&#39;: [&#39;EGFR&#39;, &#39;ALK genomic&#39;], &#39;protein&#39;: [&#39;EGFR&#39;, &#39;TECENTRIQ&#39;], &#39;chemical&#39;: []}</span>
+<span class="sd">  &gt;&gt;&gt; genProChe = biomarker_extraction.gene_protein_chemical(text = txt, gene= 1, protein = 1, chemical = 1)</span>
+<span class="sd">  # get genes</span>
+<span class="sd">  &gt;&gt;&gt; genProChe.get(&quot;gene&quot;)</span>
+<span class="sd">  [&#39;EGFR&#39;, &#39;ALK genomic&#39;]</span>
+<span class="sd">  # get proteins</span>
+<span class="sd">  &gt;&gt;&gt; genProChe.get(&quot;protein&quot;)</span>
+<span class="sd">  [&#39;EGFR&#39;, &#39;TECENTRIQ&#39;]</span>
+<span class="sd">  # Only detect genes</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.gene_protein_chemical(text = txt, gene= 1, protein = 0, chemical = 0) </span>
+<span class="sd">  {&#39;gene&#39;: [&#39;EGFR&#39;, &#39;ALK genomic&#39;]}</span>
+<span class="sd">  </span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  
+  <span class="n">geneProteinChemicalDic</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">geneList</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">proteinList</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">chemicalList</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="c1"># extract genes</span>
+  <span class="k">if</span> <span class="n">gene</span><span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp_craft</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># filter gene and gene product</span>
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="n">label_</span><span class="o">==</span><span class="s1">&#39;GGP&#39;</span><span class="p">:</span>
+         <span class="c1">#print(entity.text + &quot; GGP&quot;)</span>
+         <span class="n">geneList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">geneProteinChemicalDic</span><span class="p">[</span><span class="s1">&#39;gene&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geneList</span>
+
+  <span class="c1"># extract proteins</span>
+  <span class="k">if</span> <span class="n">protein</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp_jnlpha</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># filter protein</span>
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="n">label_</span><span class="o">==</span><span class="s1">&#39;PROTEIN&#39;</span><span class="p">:</span>
+        <span class="c1">#print(entity.text + &quot; PROTEIN&quot;)</span>
+        <span class="n">proteinList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">geneProteinChemicalDic</span><span class="p">[</span><span class="s1">&#39;protein&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">proteinList</span>
+
+  <span class="c1"># extract drugs (SIMPLE_CHEMICAL)</span>
+  <span class="k">if</span> <span class="n">chemical</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp_bionlp13cg</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># filter drug (SIMPLE_CHEMICAL)</span>
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="n">label_</span><span class="o">==</span><span class="s1">&#39;SIMPLE_CHEMICAL&#39;</span><span class="p">:</span>
+        <span class="c1">#print(entity.text + &quot; SIMPLE_CHEMICAL&quot;)</span>
+        <span class="n">chemicalList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">geneProteinChemicalDic</span><span class="p">[</span><span class="s1">&#39;chemical&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chemicalList</span>
+
+  <span class="k">return</span> <span class="n">geneProteinChemicalDic</span></div>
+
+
+<div class="viewcode-block" id="sent_subtree"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.sent_subtree">[docs]</a><span class="k">def</span> <span class="nf">sent_subtree</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract the subtree of the patterns &#39;in combination with&#39; and &#39;used with&#39; based on dependency parsing. </span>
+
+<span class="sd">  The function uses pattern match to recognize two patterns (&#39;in combination with&#39; and &#39;used with&#39;) from a sentence. Once such a pattern is recognized, the sentence is parsed as a dependency tree by scispacy&#39;s nlp_bionlp13cg model which is based on Stanford Dependency Converter. The &quot;combination&quot; or &quot;used&quot; is used as a headword to extract its subtree. </span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  text : str</span>
+<span class="sd">      A single sentence.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  list</span>
+<span class="sd">      Return a list of subtree clauses in string. </span>
+<span class="sd">  </span>
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Install the necessary packages and pre-trained models</span>
+
+<span class="sd">  &gt;&gt;&gt; # If using Colab Notebook, use !pip</span>
+<span class="sd">  $ pip install scispacy</span>
+<span class="sd">  $ pip install -U spacy==2.3.1</span>
+<span class="sd">  $ pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_bionlp13cg_md-0.3.0.tar.gz</span>
+<span class="sd">  </span>
+<span class="sd">  Import the module</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example (extract the subtree)</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; txt = &quot;TECENTRIQ, in combination with cobimetinib and vemurafenib, is indicated for the treatment of patients with BRAF V600 mutation-positive unresectable or metastatic melanoma.&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.sent_subtree(text = txt)</span>
+<span class="sd">  [&#39;in combination with cobimetinib and vemurafenib&#39;]</span>
+<span class="sd">  </span>
+<span class="sd">  Another example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; txt = &quot;BAVENCIO in combination with axitinib is indicated for the first-line treatment of patients with advanced renal cell carcinoma (RCC).&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.sent_subtree(text = txt)</span>
+<span class="sd">  [&#39;in combination with axitinib&#39;]</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># pattern match</span>
+  <span class="n">patterns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\b(?i)&#39;</span><span class="o">+</span><span class="s1">&#39;in combination with&#39;</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;\b&#39;</span><span class="p">,</span>
+          <span class="sa">r</span><span class="s1">&#39;\b(?i)&#39;</span><span class="o">+</span><span class="s1">&#39;used with&#39;</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;\b&#39;</span><span class="p">]</span>
+
+  <span class="n">subPatterns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;combination&#39;</span><span class="p">,</span> <span class="s1">&#39;used&#39;</span><span class="p">]</span>
+
+  <span class="n">schemes</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp_bionlp13cg</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+  <span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="c1"># if no pattern present in sentence</span>
+  <span class="k">for</span> <span class="n">pat</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+      
+      <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+          <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="k">break</span>
+
+  <span class="k">if</span> <span class="n">flag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">schemes</span>
+
+  <span class="c1"># iterating over sentence tokens</span>
+  <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+
+      <span class="k">for</span> <span class="n">pat</span> <span class="ow">in</span> <span class="n">subPatterns</span><span class="p">:</span>
+              
+          <span class="c1"># if we get a pattern match</span>
+          <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+
+              <span class="n">subtree</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">token</span><span class="o">.</span><span class="n">subtree</span><span class="p">]</span>
+              <span class="n">subtreeSent</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">subtree</span><span class="p">)</span>
+              <span class="n">schemes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subtreeSent</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">schemes</span>  </div>
+
+
+<div class="viewcode-block" id="is_firstline"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.is_firstline">[docs]</a><span class="k">def</span> <span class="nf">is_firstline</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">medicine</span><span class="p">,</span> <span class="n">disease</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Detect if first-line treatment is mentioned with a medicine in a sentence.</span>
+
+<span class="sd">  Use keyword matching to detect if the keywords &quot;first-line treatment&quot; or &quot;first-or second-line treatment&quot;, medicine name, and disease name all appear in the sentence.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  text : str</span>
+<span class="sd">      A single sentence.</span>
+<span class="sd">  medicine : str</span>
+<span class="sd">      A medicine&#39;s name.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  bool</span>
+<span class="sd">      Return True if the medicine and first-line treatment are mentioned in the sentence, False otherwise. </span>
+<span class="sd">  </span>
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; txt = &quot;TECENTRIQ, in combination with carboplatin and etoposide, is indicated for the first-line treatment of adult patients with extensive-stage small cell lung cancer (ES-SCLC).&quot;</span>
+<span class="sd">  &gt;&gt;&gt; medicine = &quot;TECENTRIQ&quot;</span>
+<span class="sd">  &gt;&gt;&gt; disease = &quot;small cell lung cancer&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.is_firstline(text = txt, medicine = medicine, disease = disease)</span>
+<span class="sd">  True</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+  <span class="n">medicine</span> <span class="o">=</span> <span class="n">medicine</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+  <span class="n">disease</span> <span class="o">=</span> <span class="n">disease</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+  <span class="k">if</span> <span class="n">medicine</span> <span class="ow">in</span> <span class="n">text</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;first-line treatment&#39;</span> <span class="ow">in</span> <span class="n">text</span> <span class="ow">or</span> <span class="s1">&#39;first-or second-line treatment&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">)</span> <span class="ow">and</span> <span class="n">disease</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">True</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="is_accelerated_approval"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.is_accelerated_approval">[docs]</a><span class="k">def</span> <span class="nf">is_accelerated_approval</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Detect if the drug is accelerated approval. </span>
+
+<span class="sd">  Use keyword matching to detect if the keyword &quot;accelerated approval&quot; appears in the sentence.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  text : str</span>
+<span class="sd">      A string. </span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  bool</span>
+<span class="sd">      Return True if &quot;accelerated approval&quot; is mentioned in the string, False otherwise. </span>
+<span class="sd">  </span>
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; txt = &quot;This indication is approved under accelerated approval based on progression free survival.&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.is_accelerated_approval(text = txt)</span>
+<span class="sd">  True</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+  <span class="k">if</span> <span class="s1">&#39;accelerated approval&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">True</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="is_accelerated_approval_rate"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.is_accelerated_approval_rate">[docs]</a><span class="k">def</span> <span class="nf">is_accelerated_approval_rate</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Detect if the drug is accelerated approval based on response rate. </span>
+
+<span class="sd">  Use keyword matching to detect if the keywords &quot;accelerated approval&quot; and &quot;response rate&quot; appear in the sentence.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  text : str</span>
+<span class="sd">      A string.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  bool</span>
+<span class="sd">      Return True if &quot;accelerated approval&quot; and &quot;response rate&quot; are mentioned in the string, False otherwise. </span>
+<span class="sd">  </span>
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; txt = &quot;This indication is approved under accelerated approval based on tumor response rate and durability of response.&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.is_accelerated_approval_rate(text = txt)</span>
+<span class="sd">  True</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+  <span class="k">if</span> <span class="s1">&#39;accelerated approval&#39;</span> <span class="ow">in</span> <span class="n">text</span> <span class="ow">and</span> <span class="s1">&#39;response rate&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">True</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="is_metastatic"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.is_metastatic">[docs]</a><span class="k">def</span> <span class="nf">is_metastatic</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">disease</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Detect if the metastatic disease is mentioned.</span>
+
+<span class="sd">  Use keyword matching to detect if the combination of keywords &quot;metastatic&quot; or &quot;unresectable&quot; with the disease&#39;s name appears in the sentence.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  text : str</span>
+<span class="sd">      A string or sentence</span>
+<span class="sd">  disease : str</span>
+<span class="sd">      A disease&#39;s name</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  bool</span>
+<span class="sd">      Return True if &quot;metastatic&quot; or &quot;unresectable&quot; and the disease are mentioned together, False otherwise. </span>
+<span class="sd">  </span>
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; txt = &quot;TECENTRIQ, in combination with bevacizumab, is indicated for the treatment of patients with unresectable or metastatic hepatocellular carcinoma (HCC) who have not received prior systemic therapy.&quot;</span>
+<span class="sd">  &gt;&gt;&gt; disease = &quot;hepatocellular carcinoma&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.is_metastatic(text = txt, disease = disease)</span>
+<span class="sd">  True</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+  <span class="n">disease</span> <span class="o">=</span> <span class="n">disease</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+  <span class="k">if</span> <span class="s1">&#39;metastatic&#39;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">disease</span> <span class="ow">in</span> <span class="n">text</span> <span class="ow">or</span> <span class="s1">&#39;unresectable&#39;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">disease</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">True</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="targeted_therapy_url"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.targeted_therapy_url">[docs]</a><span class="k">def</span> <span class="nf">targeted_therapy_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract the targeted therapies&#39; link from NCI page.</span>
+
+<span class="sd">  Use the lxml library to parse the URL link and xpath to find the therapy&#39;s link in the &quot;what-targeted-therapies-have-been-approved-for-specific-types-of-cancer&quot; section.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  url : str</span>
+<span class="sd">      An URL link to a targeted therapies fact sheet.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  list</span>
+<span class="sd">      Return a list of targeted therapies&#39; URL links.</span>
+
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; url_nci = &quot;https://www.cancer.gov/about-cancer/treatment/types/targeted-therapies/targeted-therapies-fact-sheet&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.targeted_therapy_url(url = url_nci)[0:5]</span>
+<span class="sd">  [&#39;/about-cancer/treatment/drugs/atezolizumab&#39;, &#39;/about-cancer/treatment/drugs/nivolumab&#39;, &#39;/about-cancer/treatment/drugs/avelumab&#39;, &#39;/about-cancer/treatment/drugs/pembrolizumab&#39;, &#39;/about-cancer/treatment/drugs/erdafitinib&#39;]</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+  
+  <span class="n">rp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+  <span class="n">page</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">rp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="c1"># get the links of FDA-approved targeted therapies</span>
+  <span class="n">therapy_links</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//section[h2[@id = &#39;what-targeted-therapies-have-been-approved-for-specific-types-of-cancer&#39;]]//p//a/@href&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">therapy_links</span></div>
+
+
+<div class="viewcode-block" id="targeted_therapy_name"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.targeted_therapy_name">[docs]</a><span class="k">def</span> <span class="nf">targeted_therapy_name</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract targeted therapy&#39;s name on its NCI page.</span>
+
+<span class="sd">  Use the lxml library to parse the URL link and xpath to find the therapy&#39;s name from the parsed tree structure.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  url : str</span>
+<span class="sd">      An URL link to a targeted therapy&#39;s NCI page.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  list</span>
+<span class="sd">      Return the name of the targeted therapy appearing on its NCI page in a list.</span>
+
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://www.cancer.gov/about-cancer/treatment/drugs/atezolizumab&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.targeted_therapy_name(url = url)</span>
+<span class="sd">  [&#39;Atezolizumab&#39;]</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+
+  <span class="c1"># get the targeted therapy URL and parse it</span>
+  <span class="n">therRp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+  <span class="n">therPage</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">therRp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="c1"># extract the therapy&#39;s name</span>
+  <span class="n">therapy_name</span> <span class="o">=</span> <span class="n">therPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//article/div/h1/text()&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">therapy_name</span></div>
+
+
+<div class="viewcode-block" id="therapy_disease"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.therapy_disease">[docs]</a><span class="k">def</span> <span class="nf">therapy_disease</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract the associated diseases (in bold text) on the therapy&#39;s NCI page.</span>
+
+<span class="sd">  Extract the associated diseases in bold text on the therapy&#39;s NCI page through parsing the URL link. Remove punctuations around the text if there are any.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  url : str</span>
+<span class="sd">      An URL link to a targeted therapy&#39;s NCI page.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  list</span>
+<span class="sd">      Return a list of disease&#39;s name. </span>
+
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://www.cancer.gov/about-cancer/treatment/drugs/atezolizumab&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.therapy_disease(url = url)</span>
+<span class="sd">  [&#39;Breast cancer&#39;, &#39;Urothelial carcinoma&#39;, &#39;Non-small cell lung cancer&#39;, &#39;Hepatocellular carcinoma&#39;, &#39;Melanoma&#39;, &#39;Small cell lung cancer&#39;]</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  
+  <span class="c1"># get the targeted therapy URL and parse it</span>
+  <span class="n">therRp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+  <span class="n">therPage</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">therRp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="c1"># extract the corresponding diseases (only for bold text, note that there are a few non-bold diseases left)</span>
+  <span class="n">diseases</span> <span class="o">=</span> <span class="n">therPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//article//div[h2[contains(text(),&#39;Use in Cancer&#39;)]]/ul/li/strong&quot;</span><span class="p">)</span>
+
+  <span class="c1"># clear (remove punctuations)</span>
+  <span class="n">punc</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;!()-[]</span><span class="si">{}</span><span class="s1">;:&#39;&quot;\, &lt;&gt;./?@#$%^&amp;*_~&#39;&#39;&#39;</span>
+  <span class="n">diseaseList</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">for</span> <span class="n">disease</span> <span class="ow">in</span> <span class="n">diseases</span><span class="p">:</span>
+      
+    <span class="c1"># get the disease in string</span>
+    <span class="c1"># remove punctuation at the end of the disease</span>
+    <span class="n">dis</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">disease</span><span class="o">.</span><span class="n">text_content</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">dis</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">punc</span><span class="p">:</span>
+      <span class="n">dis</span> <span class="o">=</span> <span class="n">dis</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">dis</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>  
+      
+    <span class="c1"># add the diseases to the list</span>
+    <span class="n">diseaseList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dis</span><span class="p">)</span>
+          
+  <span class="c1"># remove duplicates</span>
+  <span class="n">diseaseList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">diseaseList</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="n">diseaseList</span></div>
+
+<div class="viewcode-block" id="drug_search_url"><a class="viewcode-back" href="../biomarker_extraction.html#biomarker_extraction.drug_search_url">[docs]</a><span class="k">def</span> <span class="nf">drug_search_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Extract the URL link about the search outcome of drug label information. DailyMed URL link (drug information vs multiple research results).</span>
+
+<span class="sd">  Extract the URL link of &quot;FDA label information for this drug is available at DailyMed.&quot; on the therapy&#39;s NCI page. The URL link could be either a DailyMed link to drug label information or a DailyMed link showing multiple search results of the drug. </span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  url : str</span>
+<span class="sd">      An URL link to a targeted therapy&#39;s NCI page.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  list</span>
+<span class="sd">      Return a DailyMed URL link in a list.</span>
+
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Import the module</span>
+
+<span class="sd">  &gt;&gt;&gt; from biomarker_nlp import biomarker_extraction</span>
+<span class="sd">  </span>
+<span class="sd">  Example</span>
+<span class="sd">  </span>
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://www.cancer.gov/about-cancer/treatment/drugs/atezolizumab&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.drug_search_url(url = url)</span>
+<span class="sd">  [&#39;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6fa682c9-a312-4932-9831-f286908660ee&amp;audience=consumer&#39;]</span>
+<span class="sd">  &gt;&gt;&gt; url = &quot;https://www.cancer.gov/about-cancer/treatment/drugs/bevacizumab&quot;</span>
+<span class="sd">  &gt;&gt;&gt; biomarker_extraction.drug_search_url(url = url)</span>
+<span class="sd">  [&#39;https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&amp;query=BEVACIZUMAB&amp;pagesize=20&amp;page=1&#39;]</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># get the targeted therapy URL and parse it</span>
+  <span class="n">therRp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+  <span class="n">therPage</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">therRp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="c1"># obtain DailyMed link</span>
+  <span class="n">dailyMed</span> <span class="o">=</span> <span class="n">therPage</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;//article//div/p/a[text() = &#39;FDA label information for this drug is available at DailyMed.&#39;]/@href&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">dailyMed</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Junxia Lin, Yuezheng He, Subha Madhavan, Chul Kim, Simina M. Boca.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,716 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>biomarker_extraction module &mdash; Biomarker_NLP 0.0.3 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="negation_cue_scope module" href="negation_cue_scope.html" />
+    <link rel="prev" title="biomarker_nlp" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Biomarker_NLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">biomarker_nlp</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">biomarker_extraction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="negation_cue_scope.html">negation_cue_scope module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="negation_negbert.html">negation_negbert module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Biomarker_NLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">biomarker_nlp</a> &raquo;</li>
+        
+      <li>biomarker_extraction module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/biomarker_extraction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-biomarker_extraction">
+<span id="biomarker-extraction-module"></span><h1>biomarker_extraction module<a class="headerlink" href="#module-biomarker_extraction" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.disease_content">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">disease_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dailyMedURL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#disease_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.disease_content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract subsection for a particular disease from a drug’s DailyMed ‘INDICATIONS AND USAGE’ section.</p>
+<p>Parse the URL link using the lxml library. Locate the subsection that discusses the disease in the ‘INDICATIONS AND USAGE’ section from the HTML’s tree structure.
+If the header argument is set to False, only the text content will be extracted. If the header argument is set to True, the whole subsection including the subheading and its text content will be extracted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dailyMedURL</strong> (<em>str</em>) – An URL link to a drug’s DailyMed information page and quoted (“”) as a string.</p></li>
+<li><p><strong>disease</strong> (<em>str</em>) – The name of a disease whose text information will be extracted from the ‘INDICATIONS AND USAGE’ section.</p></li>
+<li><p><strong>header</strong> (<em>bool</em><em>, </em><em>optional</em>) – Extract the subheading, by default False.
+If True, the subheading will be extracted.
+If False, only the text content will be extracted.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return the subsection text with or without the subheading.
+If no associated subsection of the disease is found, return None.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None or str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example (without subheading)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=939b5d1f-9fb2-4499-80ef-0607aa6b114e&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disease</span> <span class="o">=</span> <span class="s2">&quot;Cervical Cancer&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">disease_content</span><span class="p">(</span><span class="n">dailyMedURL</span> <span class="o">=</span> <span class="n">url</span><span class="p">,</span> <span class="n">disease</span> <span class="o">=</span> <span class="n">disease</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&#39;\nAvastin, in combination with paclitaxel and cisplatin or paclitaxel and topotecan, is indicated for the treatment of patients with persistent, recurrent, or metastatic cervical cancer.&#39;</span>
+</pre></div>
+</div>
+<p>Example (with subheading)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=939b5d1f-9fb2-4499-80ef-0607aa6b114e&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disease</span> <span class="o">=</span> <span class="s2">&quot;Cervical Cancer&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">disease_content</span><span class="p">(</span><span class="n">dailyMedURL</span> <span class="o">=</span> <span class="n">url</span><span class="p">,</span> <span class="n">disease</span> <span class="o">=</span> <span class="n">disease</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39;1.5    Persistent, Recurrent, or Metastatic Cervical Cancer\nAvastin, in combination with paclitaxel and cisplatin or paclitaxel and topotecan, is indicated for the treatment of patients with persistent, recurrent, or metastatic cervical cancer.&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.drug_brand_label">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">drug_brand_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dailyMedURL</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#drug_brand_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.drug_brand_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract drug label at the drug dailyMed label information page.</p>
+<p>Parse the URL link using the lxml library. Locate and extract the drug label from the HTML’s tree structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dailyMedURL</strong> (<em>str</em>) – An URL link to a drug DailyMed information page
+and quoted (“”) as a string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return drug label.
+If no drug label is found, return a zero-length string (“”).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43a4d7f8-48ae-4a63-9108-2fa8e3ea9d9c&amp;audience=consumer&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">drug_brand_label</span><span class="p">(</span><span class="n">dailyMedURL</span> <span class="o">=</span> <span class="n">url</span><span class="p">)</span>
+<span class="go">&#39;SUTENT- sunitinib malate capsule&#39;</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#biomarker_extraction.ndc_code" title="biomarker_extraction.ndc_code"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndc_code</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.drug_search_url">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">drug_search_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#drug_search_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.drug_search_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the URL link about the search outcome of drug label information. DailyMed URL link (drug information vs multiple research results).</p>
+<p>Extract the URL link of “FDA label information for this drug is available at DailyMed.” on the therapy’s NCI page. The URL link could be either a DailyMed link to drug label information or a DailyMed link showing multiple search results of the drug.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – An URL link to a targeted therapy’s NCI page.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return a DailyMed URL link in a list.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.cancer.gov/about-cancer/treatment/drugs/atezolizumab&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">drug_search_url</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">)</span>
+<span class="go">[&#39;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6fa682c9-a312-4932-9831-f286908660ee&amp;audience=consumer&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.cancer.gov/about-cancer/treatment/drugs/bevacizumab&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">drug_search_url</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">)</span>
+<span class="go">[&#39;https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&amp;query=BEVACIZUMAB&amp;pagesize=20&amp;page=1&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.gene_protein_chemical">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">gene_protein_chemical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protein</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chemical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#gene_protein_chemical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.gene_protein_chemical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract gene, protein, and drug labels from a string.</p>
+<p>The function uses three pre-trained NER models from scispacy. Please see <a class="reference external" href="https://allenai.github.io/scispacy/">https://allenai.github.io/scispacy/</a>. We use en_ner_craft_md model to recognize genes. Entities labeled with “GGP” in this model are categorized as genes. We use the en_ner_jnlpba_md model to recognize proteins. Entities labeled with “PROTEIN” in this model are categorized as proteins. We use en_ner_bionlp13cg_md model to recognize drugs. Entities labeled with “SIMPLE_CHEMICAL” in this model are categorized as drugs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – A single string.</p></li>
+<li><p><strong>gene</strong> (<em>int</em><em>, </em><em>optional</em>) – Extract genes, by default 1.
+0: do not extract genes. 1: extract genes.</p></li>
+<li><p><strong>protein</strong> (<em>int</em><em>, </em><em>optional</em>) – Extract proteins, by default 1.
+0: do not extract proteins. 1: extract proteins.</p></li>
+<li><p><strong>chemical</strong> (<em>int</em><em>, </em><em>optional</em>) – Extract simple chemicals, by default 1.
+0: do not extract simple chemicals. 1: extract simple chemicals.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return a dictionary in which “gene”, “proteins”, or/and “chemical” are
+the keys, lists of genes, proteins, or/and chemicals are the values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dic</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Install the necessary packages and pre-trained models</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># If using Colab Notebook, use !pip</span>
+<span class="go">$ pip install scispacy</span>
+<span class="go">$ pip install -U spacy==2.3.1</span>
+<span class="go">$ pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_craft_md-0.3.0.tar.gz</span>
+<span class="go">$ pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_jnlpba_md-0.3.0.tar.gz</span>
+<span class="go">$ pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_bionlp13cg_md-0.3.0.tar.gz</span>
+</pre></div>
+</div>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example (Recognize entities)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;Patients with EGFR or ALK genomic tumor aberrations should have disease progression on FDA-approved therapy for NSCLC harboring these aberrations prior to receiving TECENTRIQ.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">gene_protein_chemical</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">,</span> <span class="n">gene</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">protein</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">chemical</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">{&#39;gene&#39;: [&#39;EGFR&#39;, &#39;ALK genomic&#39;], &#39;protein&#39;: [&#39;EGFR&#39;, &#39;TECENTRIQ&#39;], &#39;chemical&#39;: []}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">genProChe</span> <span class="o">=</span> <span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">gene_protein_chemical</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">,</span> <span class="n">gene</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">protein</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">chemical</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go"># get genes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">genProChe</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gene&quot;</span><span class="p">)</span>
+<span class="go">[&#39;EGFR&#39;, &#39;ALK genomic&#39;]</span>
+<span class="go"># get proteins</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">genProChe</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;protein&quot;</span><span class="p">)</span>
+<span class="go">[&#39;EGFR&#39;, &#39;TECENTRIQ&#39;]</span>
+<span class="go"># Only detect genes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">gene_protein_chemical</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">,</span> <span class="n">gene</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">protein</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chemical</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">{&#39;gene&#39;: [&#39;EGFR&#39;, &#39;ALK genomic&#39;]}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.is_accelerated_approval">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">is_accelerated_approval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#is_accelerated_approval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.is_accelerated_approval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect if the drug is accelerated approval.</p>
+<p>Use keyword matching to detect if the keyword “accelerated approval” appears in the sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – A string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return True if “accelerated approval” is mentioned in the string, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;This indication is approved under accelerated approval based on progression free survival.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">is_accelerated_approval</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.is_accelerated_approval_rate">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">is_accelerated_approval_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#is_accelerated_approval_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.is_accelerated_approval_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect if the drug is accelerated approval based on response rate.</p>
+<p>Use keyword matching to detect if the keywords “accelerated approval” and “response rate” appear in the sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – A string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return True if “accelerated approval” and “response rate” are mentioned in the string, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;This indication is approved under accelerated approval based on tumor response rate and durability of response.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">is_accelerated_approval_rate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.is_firstline">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">is_firstline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medicine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#is_firstline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.is_firstline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect if first-line treatment is mentioned with a medicine in a sentence.</p>
+<p>Use keyword matching to detect if the keywords “first-line treatment” or “first-or second-line treatment”, medicine name, and disease name all appear in the sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – A single sentence.</p></li>
+<li><p><strong>medicine</strong> (<em>str</em>) – A medicine’s name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return True if the medicine and first-line treatment are mentioned in the sentence, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;TECENTRIQ, in combination with carboplatin and etoposide, is indicated for the first-line treatment of adult patients with extensive-stage small cell lung cancer (ES-SCLC).&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">medicine</span> <span class="o">=</span> <span class="s2">&quot;TECENTRIQ&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disease</span> <span class="o">=</span> <span class="s2">&quot;small cell lung cancer&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">is_firstline</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">,</span> <span class="n">medicine</span> <span class="o">=</span> <span class="n">medicine</span><span class="p">,</span> <span class="n">disease</span> <span class="o">=</span> <span class="n">disease</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.is_metastatic">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">is_metastatic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#is_metastatic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.is_metastatic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect if the metastatic disease is mentioned.</p>
+<p>Use keyword matching to detect if the combination of keywords “metastatic” or “unresectable” with the disease’s name appears in the sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – A string or sentence</p></li>
+<li><p><strong>disease</strong> (<em>str</em>) – A disease’s name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return True if “metastatic” or “unresectable” and the disease are mentioned together, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;TECENTRIQ, in combination with bevacizumab, is indicated for the treatment of patients with unresectable or metastatic hepatocellular carcinoma (HCC) who have not received prior systemic therapy.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disease</span> <span class="o">=</span> <span class="s2">&quot;hepatocellular carcinoma&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">is_metastatic</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">,</span> <span class="n">disease</span> <span class="o">=</span> <span class="n">disease</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.ndc_code">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">ndc_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dailyMedURL</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#ndc_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.ndc_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract NDC code(s) from the drug dailyMed label information page.</p>
+<p>Parse the URL link using the lxml library. Locate and extract the NDC codes from the HTML’s tree structure. It returns all the codes found in a string. The codes are separated by commas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dailyMedURL</strong> (<em>str</em>) – An URL link to a drug DailyMed information page
+and quoted (“”) as a string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return NDC codes(s) in a string. If more than one code is found, codes are separated by commas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43a4d7f8-48ae-4a63-9108-2fa8e3ea9d9c&amp;audience=consumer&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">ndc_code</span><span class="p">(</span><span class="n">dailyMedURL</span> <span class="o">=</span> <span class="n">url</span><span class="p">)</span>
+<span class="go">&#39;0069-0550-38, 0069-0770-38, 0069-0830-38, 0069-0980-38&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.section_content">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">section_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dailyMedURL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">section</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#section_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.section_content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract a whole section text content from the drug’s DailyMed information page excluding the section heading.</p>
+<p>Parse the URL link using the lxml library. Locate the section using the section’s heading from the HTML’s tree structure. Extract the text content of the section excluding the heading.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dailyMedURL</strong> (<em>str</em>) – An URL link to a drug DailyMed information page and quoted (“”) as a string.</p></li>
+<li><p><strong>section</strong> (<em>str</em>) – The header of the section.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return section content. If no such a section is found, return None.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None or str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=43a4d7f8-48ae-4a63-9108-2fa8e3ea9d9c&amp;audience=consumer&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sectionHeader</span> <span class="o">=</span> <span class="s2">&quot;INDICATIONS AND USAGE&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">section_content</span><span class="p">(</span><span class="n">dailyMedURL</span> <span class="o">=</span> <span class="n">url</span><span class="p">,</span> <span class="n">section</span> <span class="o">=</span> <span class="n">sectionHeader</span><span class="p">)</span>
+<span class="go">&#39;1.1  Gastrointestinal Stromal Tumor</span>
+<span class="go">SUTENT is indicated for the treatment of adult patients with gastrointestinal stromal tumor (GIST) after disease progression on or intolerance to imatinib mesylate.</span>
+<span class="go">1.2   Advanced Renal Cell Carcinoma</span>
+<span class="go">SUTENT is indicated for the treatment of adult patients with advanced renal cell carcinoma (RCC).</span>
+<span class="go">1.3   Adjuvant Treatment of Renal Cell Carcinoma</span>
+<span class="go">SUTENT is indicated for the adjuvant treatment of adult patients at high risk of recurrent RCC following nephrectomy.</span>
+<span class="go">1.4   Advanced Pancreatic Neuroendocrine Tumors</span>
+<span class="go">SUTENT is indicated for the treatment of progressive, well-differentiated pancreatic neuroendocrine tumors (pNET) in adult patients with unresectable locally advanced or metastatic disease.&#39;</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#biomarker_extraction.disease_content" title="biomarker_extraction.disease_content"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disease_content</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.sent_subtree">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">sent_subtree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#sent_subtree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.sent_subtree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the subtree of the patterns ‘in combination with’ and ‘used with’ based on dependency parsing.</p>
+<p>The function uses pattern match to recognize two patterns (‘in combination with’ and ‘used with’) from a sentence. Once such a pattern is recognized, the sentence is parsed as a dependency tree by scispacy’s nlp_bionlp13cg model which is based on Stanford Dependency Converter. The “combination” or “used” is used as a headword to extract its subtree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – A single sentence.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return a list of subtree clauses in string.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Install the necessary packages and pre-trained models</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># If using Colab Notebook, use !pip</span>
+<span class="go">$ pip install scispacy</span>
+<span class="go">$ pip install -U spacy==2.3.1</span>
+<span class="go">$ pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_ner_bionlp13cg_md-0.3.0.tar.gz</span>
+</pre></div>
+</div>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example (extract the subtree)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;TECENTRIQ, in combination with cobimetinib and vemurafenib, is indicated for the treatment of patients with BRAF V600 mutation-positive unresectable or metastatic melanoma.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">sent_subtree</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">)</span>
+<span class="go">[&#39;in combination with cobimetinib and vemurafenib&#39;]</span>
+</pre></div>
+</div>
+<p>Another example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;BAVENCIO in combination with axitinib is indicated for the first-line treatment of patients with advanced renal cell carcinoma (RCC).&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">sent_subtree</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">txt</span><span class="p">)</span>
+<span class="go">[&#39;in combination with axitinib&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.targeted_therapy_name">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">targeted_therapy_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#targeted_therapy_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.targeted_therapy_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract targeted therapy’s name on its NCI page.</p>
+<p>Use the lxml library to parse the URL link and xpath to find the therapy’s name from the parsed tree structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – An URL link to a targeted therapy’s NCI page.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return the name of the targeted therapy appearing on its NCI page in a list.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.cancer.gov/about-cancer/treatment/drugs/atezolizumab&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">targeted_therapy_name</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">)</span>
+<span class="go">[&#39;Atezolizumab&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.targeted_therapy_url">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">targeted_therapy_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#targeted_therapy_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.targeted_therapy_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the targeted therapies’ link from NCI page.</p>
+<p>Use the lxml library to parse the URL link and xpath to find the therapy’s link in the “what-targeted-therapies-have-been-approved-for-specific-types-of-cancer” section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – An URL link to a targeted therapies fact sheet.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return a list of targeted therapies’ URL links.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url_nci</span> <span class="o">=</span> <span class="s2">&quot;https://www.cancer.gov/about-cancer/treatment/types/targeted-therapies/targeted-therapies-fact-sheet&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">targeted_therapy_url</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">url_nci</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="go">[&#39;/about-cancer/treatment/drugs/atezolizumab&#39;, &#39;/about-cancer/treatment/drugs/nivolumab&#39;, &#39;/about-cancer/treatment/drugs/avelumab&#39;, &#39;/about-cancer/treatment/drugs/pembrolizumab&#39;, &#39;/about-cancer/treatment/drugs/erdafitinib&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biomarker_extraction.therapy_disease">
+<span class="sig-prename descclassname"><span class="pre">biomarker_extraction.</span></span><span class="sig-name descname"><span class="pre">therapy_disease</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biomarker_extraction.html#therapy_disease"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biomarker_extraction.therapy_disease" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the associated diseases (in bold text) on the therapy’s NCI page.</p>
+<p>Extract the associated diseases in bold text on the therapy’s NCI page through parsing the URL link. Remove punctuations around the text if there are any.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – An URL link to a targeted therapy’s NCI page.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return a list of disease’s name.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Import the module</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">biomarker_nlp</span> <span class="kn">import</span> <span class="n">biomarker_extraction</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.cancer.gov/about-cancer/treatment/drugs/atezolizumab&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">biomarker_extraction</span><span class="o">.</span><span class="n">therapy_disease</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">)</span>
+<span class="go">[&#39;Breast cancer&#39;, &#39;Urothelial carcinoma&#39;, &#39;Non-small cell lung cancer&#39;, &#39;Hepatocellular carcinoma&#39;, &#39;Melanoma&#39;, &#39;Small cell lung cancer&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="negation_cue_scope.html" class="btn btn-neutral float-right" title="negation_cue_scope module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="biomarker_nlp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Junxia Lin, Yuezheng He, Subha Madhavan, Chul Kim, Simina M. Boca.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
