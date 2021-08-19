@@ -89,7 +89,7 @@ True
 ```
 
 #### Example Usage (negation detection)
-The negation detection models require NVIDIA GPU, so either make sure your machine has an NVIDIA GPU, or turn the Hardware accelerator GPU on if using Google Colab.
+The negation detection models require NVIDIA GPU, so either make sure your machine has an NVIDIA GPU, or turn the Hardware accelerator GPU on if using Google Colab. Download the two pre-trained models, [negCue](https://www.dropbox.com/s/3b8zhldmrx9niv4/negCue.zip?dl=0) and [negScope](https://www.dropbox.com/s/7nn1uptrvw66mn2/negScope.zip?dl=0), to your local computer from Dropbox. They are in zip format. You do not need to have a Dropbox account to download. 
 
 Install necessary packages:
 ```bash
