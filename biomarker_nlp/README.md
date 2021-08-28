@@ -101,7 +101,7 @@ pip install knockknock==0.1.7
 pip install sentencepiece
 ```
 
-Load the necessary packages and pre-trained models:
+Load the necessary packages and the pre-trained negation detection models:
 ```python
 >>> from biomarker_nlp import negation_cue_scope
 >>> from biomarker_nlp.negation_negbert import * # This code MUST be run before loading the pre-trained negation models
