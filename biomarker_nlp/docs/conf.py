@@ -23,7 +23,7 @@ author = 'Junxia, Yuezheng, Subha, Chul, Simina'
 
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.3'
+#release = '0.0.3'
 
 
 # -- General configuration ---------------------------------------------------
