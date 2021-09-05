@@ -1,0 +1,8 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}biomarker\_nlp}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}biomarker\_extraction module}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}negation\_cue\_scope module}{10}{section.1.2}%
+\contentsline {section}{\numberline {1.3}negation\_negbert module}{12}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Indices and tables}{13}{chapter.2}%
+\contentsline {chapter}{Python Module Index}{15}{section*.19}%
+\contentsline {chapter}{Index}{17}{section*.20}%
